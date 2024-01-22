@@ -5,10 +5,6 @@
       "allowedRoles": ["admin"]
     },
     {
-      "route": "/api/*",
-      "allowedRoles": ["authenticated"]
-    },
-    {
       "route": "/src/index.html",
       "allowedRoles": ["authenticated"]
     },
