@@ -14,9 +14,9 @@ module.exports = async function (context, req) {
     context.log(`user: ${JSON.stringify(user)}`);
     
     for (const [role, groupId] of Object.entries(roleGroupMappings)) {
-        if (await isUserInGroup(groupId, user.accessToken, context)) {
+        //if (await isUserInGroup(groupId, user.accessToken, context)) {
             roles.push(role);
-        }
+        //}
     }
 
     context.log(roles.toString());
