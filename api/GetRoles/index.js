@@ -10,6 +10,8 @@ module.exports = async function (context, req) {
     context.log('GetRoles called');
     const user = req.body || {};
     const roles = [];
+
+    context.log(`user: ${JSON.stringify(user)}`);
     
     for (const [role, groupId] of Object.entries(roleGroupMappings)) {
         if (await isUserInGroup(groupId, user.accessToken, context)) {
