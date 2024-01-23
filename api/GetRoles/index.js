@@ -29,12 +29,9 @@ module.exports = async function (context, req) {
 async function isUserInGroup(groupId, bearerToken, context, user) {
     context.log(`checking user in group ${groupId}`)
 
-    //GET https://graph.microsoft.com/v1.0/users/6e7b768e-07e2-4810-8459-485f84f8f204/memberOf
-
-
-    //const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
-    //url.searchParams.append('$filter', `id eq '${groupId}'`);
-    const url = new URL(`https://graph.microsoft.com/v1.0/users/${user.userId}/memberOf`)
+    const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
+    url.searchParams.append('$filter', `id eq '${groupId}'`);
+    //const url = new URL(`https://graph.microsoft.com/v1.0/users/${user.userId}/memberOf`)
     const response = await fetch(url, {
         method: 'GET',
         headers: {
