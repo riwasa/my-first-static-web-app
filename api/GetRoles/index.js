@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch').default;
 
 // add role names to this object to map them to group ids in your AAD tenant
 const roleGroupMappings = {
@@ -6,7 +6,7 @@ const roleGroupMappings = {
     'reader': 'abc23d63-ee6a-4aec-9d50-1eec10e0f602'
 };
 
-export default async function (context, req) {
+module.exports = async function (context, req) {
     const user = req.body || {};
     const roles = [];
     
