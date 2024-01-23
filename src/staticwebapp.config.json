@@ -5,8 +5,8 @@
       "allowedRoles": ["admin"]
     },
     {
-      "route": "/login",
-      "redirect": "/.auth/login/aad"
+      "route": "/authenticated/*",
+      "allowedRoles": [ "authenticated" ]
     }
   ],
   "auth": {
