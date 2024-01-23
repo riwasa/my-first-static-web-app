@@ -37,6 +37,8 @@ async function isUserInGroup(groupId, bearerToken, context) {
         },
     });
 
+    context.log(`url: ${url}`);
+
     context.log(`response status: ${response.status}`);
 
     if (response.status !== 200) {
