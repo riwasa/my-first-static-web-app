@@ -7,6 +7,7 @@ const roleGroupMappings = {
 };
 
 module.exports = async function (context, req) {
+    context.log('GetRoles called');
     const user = req.body || {};
     const roles = [];
     
@@ -22,6 +23,7 @@ module.exports = async function (context, req) {
 }
 
 async function isUserInGroup(groupId, bearerToken) {
+    logger.info(`Checking if user is in group ${groupId}`);
     const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
     url.searchParams.append('$filter', `id eq '${groupId}'`);
     const response = await fetch(url, {
