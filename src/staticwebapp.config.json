@@ -5,10 +5,6 @@
       "allowedRoles": ["admin"]
     },
     {
-      "route": "/src/index.html",
-      "allowedRoles": ["authenticated"]
-    },
-    {
       "route": "/login",
       "redirect": "/.auth/login/aad"
     }
