@@ -12,18 +12,20 @@ module.exports = async function (context, req) {
     const roles = [];
     
     for (const [role, groupId] of Object.entries(roleGroupMappings)) {
-        if (await isUserInGroup(groupId, user.accessToken)) {
+        if (await isUserInGroup(groupId, user.accessToken, context)) {
             roles.push(role);
         }
     }
+
+    context.log(roles.toString());
 
     context.res.json({
         roles
     });
 }
 
-async function isUserInGroup(groupId, bearerToken) {
-    logger.info(`Checking if user is in group ${groupId}`);
+async function isUserInGroup(groupId, bearerToken, context) {
+    context.log(`checking user in group ${groupId}`)
     const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
     url.searchParams.append('$filter', `id eq '${groupId}'`);
     const response = await fetch(url, {
@@ -33,11 +35,16 @@ async function isUserInGroup(groupId, bearerToken) {
         },
     });
 
+    context.log(`response status: ${response.status}`);
+
     if (response.status !== 200) {
         return false;
     }
 
     const graphResponse = await response.json();
+
+    context.log(`graph response: ${JSON.stringify(graphResponse)}`);
+
     const matchingGroups = graphResponse.value.filter(group => group.id === groupId);
     return matchingGroups.length > 0;
 }
