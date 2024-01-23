@@ -14,7 +14,7 @@ module.exports = async function (context, req) {
     context.log(`user: ${JSON.stringify(user)}`);
     
     for (const [role, groupId] of Object.entries(roleGroupMappings)) {
-        if (await isUserInGroup(groupId, user.accessToken, context)) {
+        if (await isUserInGroup(groupId, user.accessToken, context, user)) {
             roles.push(role);
         }
     }
@@ -26,10 +26,15 @@ module.exports = async function (context, req) {
     });
 }
 
-async function isUserInGroup(groupId, bearerToken, context) {
+async function isUserInGroup(groupId, bearerToken, context, user) {
     context.log(`checking user in group ${groupId}`)
-    const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
-    url.searchParams.append('$filter', `id eq '${groupId}'`);
+
+    //GET https://graph.microsoft.com/v1.0/users/6e7b768e-07e2-4810-8459-485f84f8f204/memberOf
+
+
+    //const url = new URL('https://graph.microsoft.com/v1.0/me/memberOf');
+    //url.searchParams.append('$filter', `id eq '${groupId}'`);
+    const url = new URL(`https://graph.microsoft.com/v1.0/users/${user.userId}/memberOf`)
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -37,6 +42,7 @@ async function isUserInGroup(groupId, bearerToken, context) {
         },
     });
 
+    context.log(`response: ${JSON.stringify(response)}`)
     context.log(`url: ${url}`);
 
     context.log(`response status: ${response.status}`);
